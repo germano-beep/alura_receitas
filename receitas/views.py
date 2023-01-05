@@ -4,7 +4,7 @@ from .models import Receita
 
 
 def index(request):
-    receitas = Receita.objects.all()
+    receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
 
     dados = {
       'receitas' : receitas
@@ -19,3 +19,16 @@ def receita(request, receita_id):
       'receita': receita    
     }
     return render(request, 'receita.html', receita_a_exibir)
+
+def buscar(request):
+  lista_receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
+  print(lista_receitas)
+  if 'search' in request.GET:
+    nome_a_buscar = request.GET['search']
+    if buscar:
+      receitas = lista_receitas.filter(nome_receita__icontains=nome_a_buscar)
+
+    dados = {
+      "receitas": receitas
+    }
+  return render(request, 'buscar.html', dados)
