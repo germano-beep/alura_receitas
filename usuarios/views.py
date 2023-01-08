@@ -11,17 +11,17 @@ def cadastro(request):
     senha = request.POST['password']
     senha2 = request.POST['password2']
 
-    if not nome.strip():
+    if not empty_field(nome):
       print("Campo inválido. Digite seu nome corretamente.")
       return render(request, 'usuarios/cadastro.html')
-    if not email.strip():
+    if not empty_field(email):
       print("Escreva o campo email corretamente")
       return render(request, 'usuarios/cadastro.html')
     if senha != senha2:
-      messages.error(request, 'Confirmação de senha incorreta.')
+      messages.error(request, 'Senhas não iguais.')
       return render(request, 'usuarios/cadastro.html')
     if User.objects.filter(email=email).exists():
-      print('Usuário já cadastrado')
+      messages.error(request, 'Usuário já cadastrado')
       return render(request, 'usuarios/cadastro.html')
 
     user = User.objects.create_user(username=nome, email=email, password=senha)
@@ -99,3 +99,6 @@ def cria_receita(request):
 
 def empty_field(field):
   return field.strip()
+
+def different_passwords(password, password2):
+  return password != password2
