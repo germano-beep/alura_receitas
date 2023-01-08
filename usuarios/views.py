@@ -37,10 +37,9 @@ def login(request):
     email = request.POST['email']
     senha = request.POST['senha']
 
-    if email == '' or senha == '':
+    if empty_field(email) or empty_field(senha):
       messages.error(request, 'Campo email e senha não podem estar vazios.')
       return redirect('login')
-
     
     if User.objects.filter(email=email).exists():
       nome = User.objects.filter(email=email).values_list('username', flat=True)
@@ -76,7 +75,6 @@ def dashboard(request):
 
     return render(request, 'usuarios/dashboard.html', dados)
   else:
-    print('To aqui')
     return redirect('index')
 
 def cria_receita(request):
@@ -98,3 +96,6 @@ def cria_receita(request):
     return redirect('dashboard')
 
   return render(request, 'usuarios/cria_receita.html')
+
+def empty_field(field):
+  return field.strip()
