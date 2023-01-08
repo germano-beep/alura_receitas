@@ -37,7 +37,8 @@ def login(request):
     email = request.POST['email']
     senha = request.POST['senha']
 
-    if empty_field(email) or empty_field(senha):
+    print(empty_field(email))
+    if not empty_field(email) or not empty_field(senha):
       messages.error(request, 'Campo email e senha não podem estar vazios.')
       return redirect('login')
     
