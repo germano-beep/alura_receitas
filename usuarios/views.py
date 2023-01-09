@@ -111,3 +111,21 @@ def empty_field(field):
 
 def different_passwords(password, password2):
   return password != password2
+
+def atualiza_receita(request):
+  if request.method == 'POST':
+    receita_id = request.POST['receita_id']
+    r = get_object_or_404(Receita, pk=receita_id)
+    r.nome_receita = request.POST['nome_receita']
+    r.ingredientes = request.POST['ingredientes']
+    r.modo_preparo = request.POST['modo_preparo']
+    r.tempo_preparo = request.POST['tempo_preparo']
+    r.rendimento = request.POST['rendimento']
+    r.categoria = request.POST['categoria']
+
+    if 'foto_receita' in request.FILES:
+      r.foto_receita = request.FILES['foto_receita']
+
+    r.save()
+
+    return redirect('dashboard')
