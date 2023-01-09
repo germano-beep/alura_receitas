@@ -72,7 +72,7 @@ def dashboard(request):
       'receitas': receitas
     }
 
-    return render(request, 'usuarios/dashboard.html', dados)
+    return render(request, 'receitas/dashboard.html', dados)
   else:
     return redirect('index')
 
@@ -94,7 +94,7 @@ def cria_receita(request):
     receita.save()
     return redirect('dashboard')
 
-  return render(request, 'usuarios/cria_receita.html')
+  return render(request, 'receitas/cria_receita.html')
 
 def deleta_receita(request, receita_id):
   receita = get_object_or_404(Receita, pk=receita_id)
@@ -104,7 +104,7 @@ def deleta_receita(request, receita_id):
 def edita_receita(request, receita_id):
   receita = get_object_or_404(Receita, pk=receita_id)
   receita_a_editar = { 'receita': receita }
-  return render(request, 'usuarios/edita_receita.html', receita_a_editar)
+  return render(request, 'receitas/edita_receita.html', receita_a_editar)
 
 def empty_field(field):
   return field.strip()

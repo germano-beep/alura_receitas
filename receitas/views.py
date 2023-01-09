@@ -18,7 +18,7 @@ def receita(request, receita_id):
     receita_a_exibir = {
       'receita': receita    
     }
-    return render(request, 'receita.html', receita_a_exibir)
+    return render(request, 'receitas/receita.html', receita_a_exibir)
 
 def busca(request):
   lista_receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
@@ -31,4 +31,4 @@ def busca(request):
     dados = {
       "receitas": receitas
     }
-  return render(request, 'busca.html', dados)
+  return render(request, 'receitas/busca.html', dados)
