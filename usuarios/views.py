@@ -44,9 +44,7 @@ def login(request):
     
     if User.objects.filter(email=email).exists():
       nome = User.objects.filter(email=email).values_list('username', flat=True)
-      print(f'nome do usuário{nome}')
       user = auth.authenticate(username=nome[0], password=senha)
-      print(nome)
 
       if user is not None:
         auth.login(request, user)
@@ -102,6 +100,11 @@ def deleta_receita(request, receita_id):
   receita = get_object_or_404(Receita, pk=receita_id)
   receita.delete()
   return redirect('dashboard')
+
+def edita_receita(request, receita_id):
+  receita = get_object_or_404(Receita, pk=receita_id)
+  receita_a_editar = { 'receita': receita }
+  return render(request, 'usuarios/edita_receita.html', receita_a_editar)
 
 def empty_field(field):
   return field.strip()
