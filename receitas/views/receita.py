@@ -45,11 +45,12 @@ def cria_receita(request):
     rendimento = request.POST['rendimento']
     categoria = request.POST['categoria']
     foto_receita = request.FILES['foto_receita']
+    publicada = request.POST.get('publicada', False)
 
     user = get_object_or_404(User, pk=request.user.id)
     receita = Receita(pessoa=user, nome_receita=nome_receita, ingredientes=ingredientes, 
                       modo_preparo=modo_preparo, tempo_preparo=tempo_preparo, rendimento=rendimento, 
-                      categoria=categoria, foto_receita=foto_receita)
+                      categoria=categoria, foto_receita=foto_receita, publicada=publicada)
 
     receita.save()
     return redirect('dashboard')
@@ -76,6 +77,7 @@ def atualiza_receita(request):
     r.tempo_preparo = request.POST['tempo_preparo']
     r.rendimento = request.POST['rendimento']
     r.categoria = request.POST['categoria']
+    r.publicada = request.POST.get('publicada', False)
 
     if 'foto_receita' in request.FILES:
       r.foto_receita = request.FILES['foto_receita']
