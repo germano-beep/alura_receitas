@@ -1,8 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
-from .models import Receita
+from receitas.models import Receita
 from django.contrib.auth.models import User
-
-
 
 def index(request):
     receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
@@ -20,19 +18,6 @@ def receita(request, receita_id):
       'receita': receita    
     }
     return render(request, 'receitas/receita.html', receita_a_exibir)
-
-def busca(request):
-  lista_receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
-  print(lista_receitas)
-  if 'search' in request.GET:
-    nome_a_busca = request.GET['search']
-    if busca:
-      receitas = lista_receitas.filter(nome_receita__icontains=nome_a_busca)
-
-    dados = {
-      "receitas": receitas
-    }
-  return render(request, 'receitas/busca.html', dados)
 
 def dashboard(request):
   if request.user.is_authenticated:
