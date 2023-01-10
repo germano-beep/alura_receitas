@@ -48,8 +48,9 @@ def login(request):
       if user is not None:
         auth.login(request, user)
         return redirect('dashboard')
-
-      return redirect('login')
+      else:
+        messages.error(request, 'Usuário ou senha errado')
+        return redirect('login')
     
     else:
       messages.error(request, 'Usuário ou senha errado')
