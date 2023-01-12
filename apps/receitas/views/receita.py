@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
+    """" apresenta todas as receitas postadas na página inicial """
     receitas = Receita.objects.order_by('-date_receita').filter(publicada=True)
     paginator = Paginator(receitas, 3)
     page = request.GET.get('page')
@@ -15,6 +16,7 @@ def index(request):
     return render(request ,'index.html', dados)
 
 def receita(request, receita_id):
+    """ recupera a receita a ser exibida """
     receita = get_object_or_404(Receita, pk=receita_id)
 
     receita_a_exibir = {
@@ -23,6 +25,7 @@ def receita(request, receita_id):
     return render(request, 'receitas/receita.html', receita_a_exibir)
 
 def dashboard(request):
+  """ apresenta todas as receitas criadas pelo usuário logado """
   if request.user.is_authenticated:
     id = request.user.id
     receitas = Receita.objects.order_by('-date_receita').filter(pessoa=id)
@@ -39,6 +42,7 @@ def dashboard(request):
     return redirect('index')
 
 def cria_receita(request):
+  """ cria e cadastra a receita no bd """
   if request.method == 'POST':
     nome_receita = request.POST['nome_receita']
     ingredientes = request.POST['ingredientes']
@@ -60,16 +64,19 @@ def cria_receita(request):
   return render(request, 'receitas/cria_receita.html')
 
 def deleta_receita(request, receita_id):
+  """ deleta a receita """
   receita = get_object_or_404(Receita, pk=receita_id)
   receita.delete()
   return redirect('dashboard')
 
 def edita_receita(request, receita_id):
+  """ edita a receita """
   receita = get_object_or_404(Receita, pk=receita_id)
   receita_a_editar = { 'receita': receita }
   return render(request, 'receitas/edita_receita.html', receita_a_editar)
 
 def atualiza_receita(request):
+  """ atualiza a receita """
   if request.method == 'POST':
     receita_id = request.POST['receita_id']
     r = get_object_or_404(Receita, pk=receita_id)

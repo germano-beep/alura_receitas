@@ -4,6 +4,7 @@ from django.contrib import auth, messages
 
 # Create your views here.
 def cadastro(request):
+  """ cadastrar usuário """
   if request.method == 'POST':
     nome = request.POST['nome']
     email = request.POST['email']
@@ -32,6 +33,7 @@ def cadastro(request):
     return render(request, 'usuarios/cadastro.html')
 
 def login(request):
+  """ logar o usuário """
   if request.method == 'POST':
     email = request.POST['email']
     senha = request.POST['senha']
@@ -60,11 +62,14 @@ def login(request):
   return render(request, 'usuarios/login.html')
 
 def logout(request):
+  """ deslogar o usuário """
   auth.logout(request)
   return redirect('index')
 
 def empty_field(field):
+  """ verificar se campo está vazio """
   return field.strip()
 
 def different_passwords(password, password2):
+  """ verificar se as senhas são diferentes """
   return password != password2

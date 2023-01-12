@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os, environ
+import os, environ, sys
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
@@ -146,3 +146,6 @@ MESSAGE_TAGS = {
     messages.SUCCESS:'success',
     messages.INFO:'info',
 }
+
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))
